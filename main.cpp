@@ -28,7 +28,6 @@ public:
   }
   Complex operator ++ (int a){
     Complex res;
-    cout << a;
     res.real = ++real;
     res.imag = ++imag;
     return res;
