@@ -3,9 +3,6 @@
 
 using namespace std;
 
-ostream &outp = cout;
-istream &inp = cin;
-
 class Complex{
   int real,imag;
 public:
@@ -13,77 +10,62 @@ public:
     real = r;
     imag = i;
   }
-  // Complexobj + [other dt]
+  // Complexobj + int
   Complex operator + (int i){
-    Complex res;
-    res.real = i + this->real;
-    res.imag = i + imag;
+    Complex res(real + i,imag + i);
     return res;
   }
   Complex operator ++ (){
-    Complex res;
-    res.real = ++real;
-    res.imag = ++imag;
-    return res;
+    ++real;
+    ++imag;
+    return *this;
   }
   Complex operator ++ (int a){
-    Complex res;
-    res.real = ++real;
-    res.imag = ++imag;
+    Complex res(real++,imag++);
     return res;
   }
   Complex operator += (int n){
-    Complex &res = *this;
-    res.real += n;
-    res.imag += n;
+    Complex res(real+n,imag+n);
     return res;
   }
-
   Complex operator ^ (int n);
+  
   friend Complex operator + (int ,Complex& );
   friend Complex operator ^ (int i,Complex &com);
   friend ostream& operator << (ostream& print, Complex c);
   friend istream& operator >> (istream& input, Complex &c){
-    cout << "Enter Real number: ";
     cin >> c.real;
-    cout << "Enter Imaginary number: ";
+    cout << "+i";
     input >>  c.imag;
     return input;
   }
 };
 
 Complex Complex::operator ^ (int n){
-  Complex res;
-  res.real = pow(real,n);
-  res.imag = pow(imag,n);
+  Complex res(pow(real,n),pow(imag,n));
   return res;
 }
 
 Complex operator + (int i,Complex &com){
-  Complex res;
-  res.real = i + com.real;
-  res.imag = i + com.imag;
+  Complex res(i+com.real,i+com.imag);
   return res;
 }
 
 Complex operator ^ (int i,Complex &com){
-  Complex res;
-  res.real = pow(i,com.real);
-  res.imag = pow(i,com.imag);
+  Complex res(pow(i,com.real),pow(i,com.imag));
   return res;
 }
 
 ostream& operator << (ostream &print, Complex c){
-  print << c.real << "  + i";
-  cout << c.imag;
+  print << c.real << "  + i" << c.imag;
   return print;
 }
 
 int main() {
   Complex c1,c2;
-  inp >> c1;
-  c1 = c1 + 1;
-  cout << c1 <<endl << &cout << endl;
-  c1 = 1 + c1;
-  outp << c1 << "," << c2;
+  cin >> c1;
+  c2 = ++c1;
+  cout << c1 << "," << c2 << endl;
+  c2 = c1++;
+  cout << c1 << "," << c2 << endl;
 }
